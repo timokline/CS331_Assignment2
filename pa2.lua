@@ -17,9 +17,15 @@ without the length exceeding the given integer.
 If the given integer is less than the length of the given string, then it returns the empty string.]==]
 function concatMax(str, int)
   local length = str:len()  --length of string
+  local s = ''             --string
   
-  for i=1,math.floor(int/length) do io.stdout:write(str) end
+  for i=1, math.floor(int/length) do s = s .. str end
+
+  return s
 end
+--print(concatMax("abcd", 5))
+--print(concatMax("abcd", 9))
+--print(concatMax("abcd", 3))
 
 
 --Function collatz.
@@ -33,7 +39,7 @@ By “returns an iterator” I mean that function collatz should be usable as fo
   
 The Collatz function [L. Collatz 1937] is the following function c, defined on the positive integers.
   
-  c(n) = {3n+1, if nis odd | n/2, if n is even. 
+  c(n) = {3n+1, if n is odd | n/2, if n is even. 
   
 The Collatz sequence starting at a positive integer k is
 
@@ -41,17 +47,31 @@ The Collatz sequence starting at a positive integer k is
 
 ]==]
 function collatz(k)
-  
-  --if the number is even
-  if n%2 == 0 then 
-    n = n/2
-  --otherwise (if odd)
-  else
-    n = 3*n+1
+  local function iter(dumm1, dumm2)
+      if k<1 then
+        return nil
+      end
+      
+      local currNum = k --save k before changing the value
+      if currNum==1 then
+        k=0 --to end iteration
+      elseif k%2==0 then
+        k=k/2
+      else
+        k=3*k+1
+      end
+
+      return currNum
+    --end
   end
-
+    return iter, nil, nil
 end
-
+--[==[
+for i in collatz(3) do
+    io.write(i.." ")
+end
+io.write("\n")
+--]==]
 
 --Coroutine substrings.
 --[==[This takes a single parameter s, which must be a string.
